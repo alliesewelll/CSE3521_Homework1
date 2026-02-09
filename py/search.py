@@ -83,7 +83,19 @@ def depthFirstSearch(problem):
     """
     YOUR CODE HERE
     """
-
+    visited = set()
+    stack = util.Stack()
+    stack.push((problem.getStartState(), []))
+    while not stack.isEmpty():
+        state, path = stack.pop()
+        if problem.isGoalState(state):
+            return path
+        if state not in visited:
+            visited.add(state)
+            for successor, action, stepCost in problem.getSuccessors(state):
+                newPath = path + [action]
+                stack.push((successor, newPath))
+                
     util.raiseNotDefined()
     
 
