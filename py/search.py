@@ -121,6 +121,21 @@ def uniformCostSearch(problem):
     """
     YOUR CODE HERE
     """
+    visited = set()
+    pq = util.PriorityQueue()
+    pq.push((problem.getStartState(), [], 0), 0)
+    while not pq.isEmpty():
+        state, path, cost = pq.pop()
+        #currentCost = problem.getCostOfActions(path)
+        if problem.isGoalState(state):
+            return path
+        if state not in visited:
+            visited.add(state)
+            for successor, action, stepCost in problem.getSuccessors(state):
+                newPath = path + [action]
+                if successor not in visited:
+                    newCost = cost + stepCost
+                    pq.push((successor, newPath, newCost), newCost)
     
     util.raiseNotDefined()
 
