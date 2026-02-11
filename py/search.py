@@ -150,6 +150,20 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     """
     YOUR CODE HERE
     """
+    pq = util.PriorityQueue()
+    start = problem.getStartState()
+    pq.push((start, [], 0), heuristic(start, problem))
+    best_g = {start: 0}
+    while not pq.isEmpty():
+        state, path, cost = pq.pop()
+        if problem.isGoalState(state):
+            return path
+        if state not in best_g or cost < best_g[state]:
+            best_g[state] = cost
+            for successor, action, stepCost in problem.getSuccessors(state):
+                newPath = path + [action]
+                newCost = cost + stepCost
+                pq.push((successor, newPath, newCost), newCost + heuristic(successor, problem))
     util.raiseNotDefined()
 
 
